@@ -10,7 +10,8 @@
 	end
 ]]
 
-type Signal<T...> = { [any]: any }
+type Connect<T...> = (self: Signal<T...>, fn: (T...) -> ()) -> any
+type Signal<T...> = { Connect: Connect<T...>?, connect: Connect<T...>?, [any]: any }
 local function collect<T...>(event: Signal<T...>)
 	local storage = {}
 	local mt = {}
@@ -27,7 +28,9 @@ local function collect<T...>(event: Signal<T...>)
 		end
 	end
 
-	local disconnect = event:Connect(function(...)
+	local connect = event.Connect or event.connect
+	assert(connect ~= nil, `Event is missing a Connect function`)
+	local disconnect = connect(function(...)
 		table.insert(storage, { ... })
 		mt.__iter = iter
 	end)
