@@ -30,7 +30,7 @@ local function collect<T...>(event: SignalLike<T...>)
 
 	local connect = event.Connect or event.connect
 	assert(connect ~= nil, "Signal is missing a Connect function - is it really a signal?")
-	local disconnect = connect(function(...)
+	local disconnect = connect(event, function(...)
 		table.insert(storage, { ... })
 		mt.__iter = iter
 	end)
