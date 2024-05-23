@@ -1,7 +1,7 @@
 local collect = require(script.collect)
-local getIfExists = require(script.getIfExists)
+local getSafely = require(script.getSafely)
 
 return {
 	collect = collect,
-	getIfExists = getIfExists,
+	getSafely = getSafely,
 }
