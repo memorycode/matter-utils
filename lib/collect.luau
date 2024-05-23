@@ -10,9 +10,9 @@
 	end
 ]]
 
-type Connect<T...> = (self: Signal<T...>, fn: (T...) -> ()) -> any
-type Signal<T...> = { Connect: Connect<T...>?, connect: Connect<T...>?, [any]: any }
-local function collect<T...>(event: Signal<T...>)
+type Connect<T...> = (self: SignalLike<T...>, fn: (T...) -> ()) -> any
+type SignalLike<T...> = ({ connect: Connect<T...> } | { Connect: Connect<T...> }) & { [any]: any }
+local function collect<T...>(event: SignalLike<T...>)
 	local storage = {}
 	local mt = {}
 	local iter = function()
